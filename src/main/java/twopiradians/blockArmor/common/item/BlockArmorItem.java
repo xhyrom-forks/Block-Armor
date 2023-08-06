@@ -81,8 +81,7 @@ public class BlockArmorItem extends ArmorItem {
 	public void initializeClient(Consumer<IItemRenderProperties> consumer) {
 		consumer.accept(new IItemRenderProperties() {
 			@Override
-			@OnlyIn(Dist.CLIENT)
-			public <A extends HumanoidModel<?>> A getArmorModel(LivingEntity entity, ItemStack stack, EquipmentSlot armorSlot, A _default) {
+			public HumanoidModel<?> getArmorModel(LivingEntity entity, ItemStack stack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
 				BlockArmorItem item = (BlockArmorItem) stack.getItem();
 				TextureInfo info = item.set.getTextureInfo(item.slot);
 				TextureAtlasSprite sprite = info.sprite;
@@ -93,7 +92,7 @@ public class BlockArmorItem extends ArmorItem {
 				ModelBAArmor model = (ModelBAArmor) ClientProxy.getBlockArmorModel(entity, height, width, currentFrame, nextFrame, slot);
 				model.color = info.color;
 				model.alpha = info.getAlpha();
-				return (A) model;
+				return (HumanoidModel<?>) model;
 			}
 		});
 	}
@@ -169,7 +168,7 @@ public class BlockArmorItem extends ArmorItem {
 			if (Screen.hasShiftDown())
 				tooltip.add(new TranslatableComponent("item.blockarmor.tooltip.setEffects", 
 						new TranslatableComponent("item.blockarmor.tooltip.setEffectsRequire"+(Config.piecesForSet == 4 ? "" : "+"), Config.piecesForSet)
-						.withStyle(ChatFormatting.ITALIC), Config.piecesForSet)
+						.withStyle(ChatFormatting.ITALIC))
 						.withStyle(ChatFormatting.GOLD));
 
 			// set effect names and descriptions if shifting
